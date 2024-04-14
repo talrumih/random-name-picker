@@ -28,6 +28,14 @@
     font-size: 90%;
   }
 }
+.crown {
+  width: 100px; /* Adjust size as needed */
+  position: absolute;
+  top: -80px; /* Adjust based on the exact position you want */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 11;
+}
 </style>
 
 </head>
@@ -48,7 +56,7 @@
 
 	<div class="row">
 		<div class="large-12 columns">
-			<h3 style="text-align:center;margin-top:30px;" id="headline">Let's see who is The Lucky One?</h3>
+			<h3 style="text-align:center;margin-top:30px; margin-bottom: 60px;" id="headline">Let's see who is The Lucky One?</h3>
 			
 			<div id="varnote"><img src="img/logo.png"></div>
 			
@@ -351,6 +359,7 @@ function standout(text){
 
         $('#result1').removeClass('name');
         $('.name').animate({opacity: .25});
+	$('#result1').prepend('<img src="https://i.postimg.cc/wBdKpGsF/pngwing-com-1.png" class="crown">');
         $('#result1').animate({height: '+=60px'});
         $('#result1').append('<div class="extra"><a class="small alert button" href="#" onClick="removevictim();">Remove name from list</a></div>');
         $('#go').removeAttr('disabled','disabled');
