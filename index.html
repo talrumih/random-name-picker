@@ -18,8 +18,7 @@
 #names { display:none;padding:5px; }
 #namesbox { min-height:400px;font-size:32px;color:#333;resize:none;border:1px solid #F39C12; }
 .extra { font-size:16px;margin-top:20px; }
-#result1 { background:#000;color:#fbe34b;padding:20px;z-index:10;margin-top:-150px; }
-body { background:#F1C40F url(img/bg-noise-orange.png); }
+#result1 { background:#0a2b31;color:#fff;padding:20px;z-index:10;margin-top:-150px; }
 #varnote { font-size:40px;text-align:center;padding:30px; }
 .copyright { font-size:11px;font-family:Tahoma;color:#9B59B6; }
 </style>
@@ -27,9 +26,9 @@ body { background:#F1C40F url(img/bg-noise-orange.png); }
 </head>
 <body onload="reset();">
 
-  <div class="full-head" style="width:100%;background:#111 url(img/header-bg.png) repeat-x center top;border-bottom:1px solid #D35400;">
+  <div class="full-head" style="width:100%;background:#0a2b31;">
 	<div class="row">
-		<div class="large-12 columns" style="padding-top:50px;background:#111 url(img/header-bg.png) repeat-x center top;z-index:20;">
+		<div class="large-12 columns" style="padding-top:50px;z-index:20;">
 		<ul class="button-group even-4">
       <li><a href="index.html" class="alert button" id="reset">Reset</a></li>
 			<li><button class="button" id="list" onclick="namelist();">Name List</button></li>
@@ -44,7 +43,7 @@ body { background:#F1C40F url(img/bg-noise-orange.png); }
 		<div class="large-12 columns">
 			<h3 style="text-align:center;margin-top:30px;" id="headline">Let's see who is The Lucky One?</h3>
 			
-			<div id="varnote"><img src="img/logo.png"><div class="copyright">&copy; Coded by <strong>Heiswayi Nrird</strong>, June 2013</div></div>
+			<div id="varnote"><img src="img/logo.png">
 			
       <div id="popdown">
       <div id="names" class="inbox"><textarea name="namesbox" id="namesbox"></textarea></div>
