@@ -97,30 +97,32 @@ body{
 
   <script>
 document.addEventListener('DOMContentLoaded', function() {
-  reset(generateNumbers()); // Generate and display numbers on page load
+  fetchNames(); // Call the function on page load
 });
 
-// Generate an array of numbers from 1 to 800
-function generateNumbers() {
-  const numbers = Array.from({ length: 800 }, (_, i) => i + 1); // Creates array [1, 2, ..., 800]
-  return numbers;
-}
-
-// Reset function to initialize the slider with generated numbers
-function reset(numbers) {
-  setTimeout(() => { $('#go').removeAttr('disabled') }, 11005);
-
-  $("#namesbox").val(numbers.join("\n")); // Display all numbers in the textarea
+function reset(names){
+  setTimeout("$('#go').removeAttr('disabled')", 11005);
+  var namesbreak = "";
+  if(gup('names') != ""){
+    names = gup('names');
+    namesbreak = names.replace(/101/g, '\n');
+    namesbreak = namesbreak.replace(/%20/g, ' ');          
+  } else {
+    for(var i in names){
+      name = names[i];
+      if (name !== "" && typeof(name) !== undefined){
+         namesbreak = namesbreak + name + "\n";
+      }
+    }
+  }
+  $("#namesbox").val(namesbreak);
   const varnoteDiv = $('#varnote');
   varnoteDiv.html(''); // Clear existing content
-
-  numbers.forEach(number => {
-    const numberDiv = $('<div class="name-slider-item"></div>');
-    numberDiv.text(number);
-    varnoteDiv.append(numberDiv);
+  names.forEach(name => {
+    const nameDiv = $('<div class="name-slider-item"></div>');
+    nameDiv.text(name);
+    varnoteDiv.append(nameDiv);
   });
-
-  // Initialize the slick slider for animation
   $('#varnote').slick({
     speed: 9000,
     infinite: true,
@@ -135,63 +137,124 @@ function reset(numbers) {
   });
 }
 
+function gup(para) {
+  para = para.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+  var regexS = "[\\?&]"+para+"=([^&#]*)";
+  var regex = new RegExp( regexS );
+  var results = regex.exec( window.location.href );
+  if( results == null )
+    return "";
+  else
+    return results[1];
+}
+
+function randOrd() {
+  return (Math.round(Math.random()) - 0.5); 
+}
+
+function save(){
+  $("#varnote").hide();
+  $("#srtbtn").hide();
+  $("#popdown").show();
+  $("#values").hide();
+  $("div").remove("#result1");
+  savenames = $("#namesbox").val();
+  savenames = savenames.replace(/\n\r?/g, '101');
+  $('#headline').fadeOut();
+  $('#headline').text('The name list is saved and updated.').fadeIn();
+  $("#names").show();
+  $('#namesbox').attr('disabled','disabled');
+}
+
+function namelist(){
+  $("#varnote").hide();
+  $("#srtbtn").hide();
+  $('#namesbox').removeAttr('disabled','disabled');
+  $('#headline').text('Configure name list');
+  $("#popdown").show();
+  $("#values").hide();
+  $("#names").show();
+  $('body').css({"overflow-y": "visible"});
+}
+
 function go() {
   $("#varnote").hide();
   $("#srtbtn").hide();
-  $('body').css({ "overflow-y": "hidden" });
-  $('#go').attr('disabled', 'disabled');
-  $('#list').attr('disabled', 'disabled');
-  $('#save').attr('disabled', 'disabled');
+  $('body').css({"overflow-y": "hidden"});
+  $('#go').attr('disabled','disabled');
+  $('#list').attr('disabled','disabled');
+  $('#save').attr('disabled','disabled');
   $('#headline').slideUp();
   $('#namesbox').slideDown();
 
-  const numbers = $("#namesbox").val().split("\n").map(Number).filter(Boolean); // Get numbers as an array
-
-  // Shuffle numbers and pick the first four as winners
-  numbers.sort(() => Math.random() - 0.5);
-  const winners = numbers.slice(0, 4); // Select 4 random winners
-
-  $("#values").show().css({ top: numbers.length * -200 }); // Set initial top position for animation
+  var count = 1;
+  $("div").remove("#result1");
+  names = $("#namesbox").val().split("\n").filter(Boolean);
+  $("#values").show();
+  $(".name").show();
   $("#popdown").hide();
   $("div").remove(".name");
   $("div").remove(".extra");
+  $("#playback").html("");
+  newtop = names.length * 200 * -1;
+  $('#values').css({top: newtop});	
+  names.sort(randOrd);
 
-  // Append numbers to display for animation
-  winners.forEach((number, index) => {
-    $('#values').append(`<div id="result${index + 1}" class="name">${number}</div>`);
-  });
+  // Append names three times to create a continuous animation effect
+  for(var i = 0; i < 3; i++) {
+    names.forEach(name => {
+      $('#values').append('<div class=name>' + name + '</div>');
+    });
+  }
+  
+  $('#values').animate({top: '+176'}, 5000);
 
-  // Slide up the numbers with animation
-  $('#values').animate({ top: '+176' }, 5000, function() {
-    standout(winners); // Highlight winners after animation
-  });
+  // Highlight winners after animation
+  setTimeout(() => standout(names.slice(0, 4)), 5000); // Pick the first 4 winners after shuffling
 }
 
 function standout(winners) {
-  $('.name').animate({ opacity: 0.25 });
-
   winners.forEach((winner, index) => {
-    const resultDiv = $(`#result${index + 1}`);
-    resultDiv.removeClass('name').css({ opacity: 1 });
-    resultDiv.prepend('<img src="https://i.postimg.cc/wBdKpGsF/pngwing-com-1.png" class="crown">');
-    resultDiv.animate({ height: '+=60px' }, 500);
-    resultDiv.append('<div class="extra"><a onClick="removevictim();"><img style="width: 60px;" src="img/eraser.png" alt="Remove from the list"></a></div>');
+    $('#values').append('<div id="result' + (index + 1) + '" class="name">' + winner + '</div>');
+    $(`#result${index + 1}`).prepend('<img src="https://i.postimg.cc/wBdKpGsF/pngwing-com-1.png" class="crown">');
+    $(`#result${index + 1}`).animate({height: '+=60px'});
+    $(`#result${index + 1}`).append('<div class="extra"><a onClick="removevictim();"><img style="width: 60px;" src="img/eraser.png" alt="Remove from the list"></a></div>');
   });
-
+  
   $('#headline').text('Found the Winners!').slideDown();
   $('#go, #list, #save').removeAttr('disabled');
 }
 
-function removevictim() {
-  const updatedNumbers = $("#namesbox").val().split("\n").filter(number => number && !winners.includes(Number(number))).join('\n');
-  $('#namesbox').val(updatedNumbers);
-  $('#result1').fadeOut(1000, function() {
+function removevictim(){
+  var updatedNames = $("#namesbox").val().split("\n").filter(name => name && !winners.includes(name)).join('\n');
+  $('#namesbox').val(updatedNames);
+  $('#result1').fadeOut(1000, function(){
     $("div").remove("#result1");
   });
+  $("div").remove(".name");
+  $("div").remove(".extra");
   $('#headline').text('OK, done! Let\'s see who is next? Just click "GO!" button for the next roll.');
 }
-</script>
 
+function fetchNames() {
+  $.ajax({
+    url: 'https://bsf.eventy.sa/en/events/1/event_users/checked_in_api',
+    type: 'GET',
+    dataType: 'json',
+    success: function(data) {
+      var namesList = data.results.map(function(user) {
+        var bsfNumber = user.custom_fields["BSF #"];
+        return `1-800: ${bsfNumber}`; // Displaying as "1-800" format if required
+      });
+      console.log(namesList); 
+      reset(namesList);
+    },
+    error: function(xhr, status, error) {
+      console.error('Error occurred:', error);
+    }
+  });
+}
+</script>
 
 
 </body>
