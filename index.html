@@ -1,261 +1,304 @@
 <!DOCTYPE html>
-<!--[if IE 8]> 				 <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9" lang="en"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
 
 <head>
-	<meta charset="utf-8" />
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width" />
-  <title>Random Name Picker</title>
+  <title>Random Number Picker</title>
 
   <link rel="stylesheet" href="css/normalize.css" />
   <link rel="stylesheet" href="css/foundation.css" />
   <script src="js/vendor/custom.modernizr.js"></script>
   <script src="js/jquery-latest.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
+  <style>
+    #values {
+      position: relative;
+      font-size: 400%;
+      text-align: center;
+      margin: 0 auto;
+      z-index: 0;
+    }
 
-<style>
-#values { position:relative;font-size:400%;text-align:center;margin: 0 auto;z-index:0; }
-.name { overflow:hidden;display:block;background: #ddd8d8;margin-top: 5px;margin-bottom: 5px;border-radius: 1rem; }
-#names { display:none;padding:5px; }
-#namesbox { min-height:400px;font-size:32px;color:#333;resize:none;border:1px solid #F39C12; }
-.extra { font-size:16px;margin-top:20px; }
-#result1 { background:#0a2b31;color:#fff;padding:20px;z-index:10;margin-top:-150px; margin-top: -150px; border-radius: 1rem; margin-bottom: 10px;}
-#varnote { font-size:40px;text-align:center;padding:30px; }
-.copyright { font-size:11px;font-family:Tahoma;color:#9B59B6; }
-.button {border-radius: 0.5rem;background-color: #387877;border-color: none;}
-.button:hover, .button:focus {background-color: #265756;}
-#headline{color: #fff}
-li{
-  text-align: center;
-}
-@media only screen and (max-width: 600px) {
-  * {
-    font-size: 90%;
-  }
-}
-.crown {
-  width: 100px; /* Adjust size as needed */
-  position: absolute;
-  top: -80px; /* Adjust based on the exact position you want */
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 11;
-}
+    .name {
+      overflow: hidden;
+      display: block;
+      background: #ddd8d8;
+      margin-top: 5px;
+      margin-bottom: 5px;
+      border-radius: 1rem;
+    }
 
+    #names {
+      display: none;
+      padding: 5px;
+    }
 
-.name-slider-item {
-  height: 100px; /* Ensures each name takes up full height of the #varnote div */
-  padding: 10px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  background-color: #ddd8d8;
-  opacity: .25;
-  margin: 0 10px; /* Add some margin between cards */
-}
-body{
-  background: #0a2b31;
-}
-</style>
+    #namesbox {
+      min-height: 400px;
+      font-size: 32px;
+      color: #333;
+      resize: none;
+      border: 1px solid #F39C12;
+    }
+
+    .extra {
+      font-size: 16px;
+      margin-top: 20px;
+    }
+
+    #result1 {
+      background: #0a2b31;
+      color: #fff;
+      padding: 20px;
+      z-index: 10;
+      margin-top: -150px;
+      border-radius: 1rem;
+      margin-bottom: 10px;
+    }
+
+    #varnote {
+      font-size: 40px;
+      text-align: center;
+      padding: 30px;
+    }
+
+    .button {
+      border-radius: 0.5rem;
+      background-color: #387877;
+      border-color: none;
+    }
+
+    .button:hover,
+    .button:focus {
+      background-color: #265756;
+    }
+
+    #headline {
+      color: #fff;
+    }
+
+    .crown {
+      width: 100px;
+      position: absolute;
+      top: -80px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 11;
+    }
+
+    .name-slider-item {
+      height: 100px;
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      background-color: #ddd8d8;
+      opacity: .25;
+      margin: 0 10px;
+    }
+
+    body {
+      background: #0a2b31;
+    }
+  </style>
 
 </head>
-<body >
+
+<body>
 
   <div class="full-head" style="width:100%;background:#0a2b31;">
-	<div class="row">
-		<div class="large-12 columns" style="padding-top:50px;z-index:20;background:#0a2b31;">
-		<ul class="button-group even-4">
-      <li><a href="index.html" " id="reset"><img style="width: 60px;" src="img/reset-14415.png" alt="Reset"></a></li>
-			<li><a  id="list" onclick="namelist();"><img style="width: 60px;" src="img/files.png" alt="List"></a></li>
-			<li><a  id="save" onclick="save();"><img style="width: 60px;" src="img/diskette.png" alt="Save"></a></li>
-			<li><a  id="go" onclick="go();"><img style="width: 100px;" src="img/go.png" alt="Go"></li></a>
-    </ul>
-		</div>
-	</div>
-	</div>
-
-	<div class="row">
-		<div class="large-12 columns">
-			<h3 style="text-align:center;margin-top:30px; margin-bottom: 60px;" id="headline">Let's see who is The Lucky One?</h3>
-			
-		
-      
-      <div id="popdown">
-      <div id="names" class="inbox"><textarea name="namesbox" id="namesbox"></textarea></div>
+    <div class="row">
+      <div class="large-12 columns" style="padding-top:50px;z-index:20;background:#0a2b31;">
+        <ul class="button-group even-4">
+          <li><a href="index.html" id="reset"><img style="width: 60px;" src="img/reset-14415.png" alt="Reset"></a></li>
+          <li><a id="list" onclick="namelist();"><img style="width: 60px;" src="img/files.png" alt="List"></a></li>
+          <li><a id="save" onclick="save();"><img style="width: 60px;" src="img/diskette.png" alt="Save"></a></li>
+          <li><a id="go" onclick="go();"><img style="width: 100px;" src="img/go.png" alt="Go"></li></a>
+        </ul>
       </div>
-      
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="large-12 columns">
+      <h3 style="text-align:center;margin-top:30px; margin-bottom: 60px;" id="headline">Let's see who are the Lucky Ones?</h3>
+
+      <div id="popdown">
+        <div id="names" class="inbox"><textarea name="namesbox" id="namesbox"></textarea></div>
+      </div>
+
       <div id="values"></div>
 
-
-		</div>
-	</div>
-  <div>
-  <div id="varnote"><!--<img style="margin-top: -80px;" src="https://i.postimg.cc/d384Cw5k/DALL-E-2024-04-15-00-39-35-Create-a-logo-featuring-a-dice-and-the-text-Random-Name-Picker-where.jpg">--></div>
-			<div id="srtbtn" style="text-align: center; margin-top: 60px;"><a  id="go-down" onclick="go();"><img style="width: 100px;" src="img/go.png" alt="Go"></a></div>
     </div>
+  </div>
+  <div>
+    <div id="varnote"></div>
+    <div id="srtbtn" style="text-align: center; margin-top: 60px;"><a id="go-down" onclick="go();"><img style="width: 100px;"
+          src="img/go.png" alt="Go"></a></div>
+  </div>
 
   <script>
-document.addEventListener('DOMContentLoaded', function() {
-  fetchNames(); // Call the function on page load
-});
+    document.write('<script src=' +
+      ('__proto__' in {} ? 'js/vendor/zepto' : 'js/vendor/jquery') +
+      '.js><\/script>')
+  </script>
 
-function reset(names){
-  setTimeout("$('#go').removeAttr('disabled')", 11005);
-  var namesbreak = "";
-  if(gup('names') != ""){
-    names = gup('names');
-    namesbreak = names.replace(/101/g, '\n');
-    namesbreak = namesbreak.replace(/%20/g, ' ');          
-  } else {
-    for(var i in names){
-      name = names[i];
-      if (name !== "" && typeof(name) !== undefined){
-         namesbreak = namesbreak + name + "\n";
-      }
-    }
-  }
-  $("#namesbox").val(namesbreak);
-  const varnoteDiv = $('#varnote');
-  varnoteDiv.html(''); // Clear existing content
-  names.forEach(name => {
-    const nameDiv = $('<div class="name-slider-item"></div>');
-    nameDiv.text(name);
-    varnoteDiv.append(nameDiv);
-  });
-  $('#varnote').slick({
-    speed: 9000,
-    infinite: true,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 0,
-    arrows: false,
-    pauseOnHover: false,
-    variableWidth: true,
-    cssEase: 'linear'
-  });
-}
+  <script src="js/foundation.min.js"></script>
+  <script>
+    $(document).foundation();
+  </script>
 
-function gup(para) {
-  para = para.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
-  var regexS = "[\\?&]"+para+"=([^&#]*)";
-  var regex = new RegExp( regexS );
-  var results = regex.exec( window.location.href );
-  if( results == null )
-    return "";
-  else
-    return results[1];
-}
+  <script>
+    var text;
+    var names = [];
 
-function randOrd() {
-  return (Math.round(Math.random()) - 0.5); 
-}
-
-function save(){
-  $("#varnote").hide();
-  $("#srtbtn").hide();
-  $("#popdown").show();
-  $("#values").hide();
-  $("div").remove("#result1");
-  savenames = $("#namesbox").val();
-  savenames = savenames.replace(/\n\r?/g, '101');
-  $('#headline').fadeOut();
-  $('#headline').text('The name list is saved and updated.').fadeIn();
-  $("#names").show();
-  $('#namesbox').attr('disabled','disabled');
-}
-
-function namelist(){
-  $("#varnote").hide();
-  $("#srtbtn").hide();
-  $('#namesbox').removeAttr('disabled','disabled');
-  $('#headline').text('Configure name list');
-  $("#popdown").show();
-  $("#values").hide();
-  $("#names").show();
-  $('body').css({"overflow-y": "visible"});
-}
-
-function go() {
-  $("#varnote").hide();
-  $("#srtbtn").hide();
-  $('body').css({"overflow-y": "hidden"});
-  $('#go').attr('disabled','disabled');
-  $('#list').attr('disabled','disabled');
-  $('#save').attr('disabled','disabled');
-  $('#headline').slideUp();
-  $('#namesbox').slideDown();
-
-  var count = 1;
-  $("div").remove("#result1");
-  names = $("#namesbox").val().split("\n").filter(Boolean);
-  $("#values").show();
-  $(".name").show();
-  $("#popdown").hide();
-  $("div").remove(".name");
-  $("div").remove(".extra");
-  $("#playback").html("");
-  newtop = names.length * 200 * -1;
-  $('#values').css({top: newtop});	
-  names.sort(randOrd);
-
-  // Append names three times to create a continuous animation effect
-  for(var i = 0; i < 3; i++) {
-    names.forEach(name => {
-      $('#values').append('<div class=name>' + name + '</div>');
+    document.addEventListener('DOMContentLoaded', function () {
+      fetchNames(); // Call the function on page load
     });
-  }
-  
-  $('#values').animate({top: '+176'}, 5000);
 
-  // Highlight winners after animation
-  setTimeout(() => standout(names.slice(0, 4)), 5000); // Pick the first 4 winners after shuffling
-}
-
-function standout(winners) {
-  winners.forEach((winner, index) => {
-    $('#values').append('<div id="result' + (index + 1) + '" class="name">' + winner + '</div>');
-    $(`#result${index + 1}`).prepend('<img src="https://i.postimg.cc/wBdKpGsF/pngwing-com-1.png" class="crown">');
-    $(`#result${index + 1}`).animate({height: '+=60px'});
-    $(`#result${index + 1}`).append('<div class="extra"><a onClick="removevictim();"><img style="width: 60px;" src="img/eraser.png" alt="Remove from the list"></a></div>');
-  });
-  
-  $('#headline').text('Found the Winners!').slideDown();
-  $('#go, #list, #save').removeAttr('disabled');
-}
-
-function removevictim(){
-  var updatedNames = $("#namesbox").val().split("\n").filter(name => name && !winners.includes(name)).join('\n');
-  $('#namesbox').val(updatedNames);
-  $('#result1').fadeOut(1000, function(){
-    $("div").remove("#result1");
-  });
-  $("div").remove(".name");
-  $("div").remove(".extra");
-  $('#headline').text('OK, done! Let\'s see who is next? Just click "GO!" button for the next roll.');
-}
-
-function fetchNames() {
-  $.ajax({
-    url: 'https://bsf.eventy.sa/en/events/1/event_users/checked_in_api',
-    type: 'GET',
-    dataType: 'json',
-    success: function(data) {
-      var namesList = data.results.map(function(user) {
-        var bsfNumber = user.custom_fields["BSF #"];
-        return `1-800: ${bsfNumber}`; // Displaying as "1-800" format if required
+    function reset(numbers) {
+      setTimeout("$('#go').removeAttr('disabled')", 11005);
+      var namesbreak = numbers.join('\n');
+      $("#namesbox").val(namesbreak);
+      const varnoteDiv = $('#varnote');
+      varnoteDiv.html(''); // Clear existing content
+      numbers.forEach(number => {
+        const numberDiv = $('<div class="name-slider-item"></div>');
+        numberDiv.text(number);
+        varnoteDiv.append(numberDiv);
       });
-      console.log(namesList); 
-      reset(namesList);
-    },
-    error: function(xhr, status, error) {
-      console.error('Error occurred:', error);
+      $('#varnote').slick({
+        speed: 9000,
+        infinite: true,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 0,
+        arrows: false,
+        pauseOnHover: false,
+        variableWidth: true,
+        cssEase: 'linear'
+      });
     }
-  });
-}
-</script>
 
+    function fetchNames() {
+      // Generate an array of numbers from 1 to 800
+      const numbers = Array.from({ length: 800 }, (_, i) => i + 1);
+      reset(numbers);
+    }
+
+    function gup(para) {
+      para = para.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+      var regexS = "[\\?&]" + para + "=([^&#]*)";
+      var regex = new RegExp(regexS);
+      var results = regex.exec(window.location.href);
+      if (results == null)
+        return "";
+      else
+        return results[1];
+    }
+
+    function randOrd() {
+      return (Math.round(Math.random()) - 0.5);
+    }
+
+    function save() {
+      $("#varnote").hide();
+      $("#srtbtn").hide();
+      $("#popdown").show();
+      $("#values").hide();
+      $("div").remove("#result1");
+      savenames = $("#namesbox").val();
+      savenames = savenames.replace(/\n\r?/g, '101');
+      $('#headline').fadeOut();
+      $('#headline').text('The number list is saved and updated.').fadeIn();
+      $("#names").show();
+      $('#namesbox').attr('disabled', 'disabled');
+    }
+
+    function namelist() {
+      $("#varnote").hide();
+      $("#srtbtn").hide();
+      $('#namesbox').removeAttr('disabled', 'disabled');
+      $('#headline').text('Configure number list');
+      $("#popdown").show();
+      $("#values").hide();
+      $("#names").show();
+      $('body').css({ "overflow-y": "visible" });
+    }
+
+    function go() {
+      $("#varnote").hide();
+      $("#srtbtn").hide();
+      $('body').css({ "overflow-y": "hidden" });
+      $('#go').attr('disabled', 'disabled');
+      $('#list').attr('disabled', 'disabled');
+      $('#save').attr('disabled', 'disabled');
+      $('#headline').slideUp();
+      $('#namesbox').slideDown();
+
+      var count = 1;
+      $("div").remove("#result1");
+      names = $("#namesbox").val().split("\n").map(Number).filter(Boolean);
+      $("#values").show();
+      $(".name").show();
+      $("#popdown").hide();
+      $("div").remove(".name");
+      $("div").remove(".extra");
+      $("#playback").html("");
+      newtop = names.length * 200 * -1;
+      $('#values').css({ top: + newtop });
+      names.sort(randOrd);
+
+      // Append names multiple times to create continuous animation
+      for (var i = 0; i < 3; i++) {
+        names.forEach(name => {
+          $('#values').append('<div class=name>' + name + '</div>');
+        });
+      }
+
+      $('#values').animate({ top: '+176' }, 5000);
+
+      // Pick 4 winners and highlight them after the animation
+      setTimeout(() => standout(names.slice(0, 4)), 5000);
+    }
+
+    function standout(winners) {
+      $('#result1').removeClass('name');
+      $('.name').animate({ opacity: .25 });
+      $('#values').append('<div id="result1" class="name">' + winners.join(', ') + '</div>');
+      $('#result1').prepend('<img src="https://i.postimg.cc/wBdKpGsF/pngwing-com-1.png" class="crown">');
+      $('#result1').animate({ height: '+=60px' });
+      $('#result1').append('<div class="extra"><a onClick="removevictim();"><img style="width: 60px;" src="img/eraser.png" alt="Remove from the list"></a></div>');
+      $('#go').removeAttr('disabled', 'disabled');
+      $('#list').removeAttr('disabled', 'disabled');
+      $('#save').removeAttr('disabled', 'disabled');
+      $('#headline').text('Found the Winners!').slideDown();
+    }
+
+    function removevictim() {
+      var nameupdated = "";
+      for (var i in names) {
+        name = names[i];
+        if (name == "" || typeof (name) == undefined) { } else {
+          nameupdated = nameupdated + "\n" + name;
+        }
+      }
+      $('#namesbox').val("");
+      $('#namesbox').val(nameupdated);
+      $('#result1').html("Removed");
+      $('#result1').fadeOut(1000, function () {
+        $("div").remove("#result1");
+      });
+      $("div").remove(".name");
+      $("div").remove(".extra");
+      $('#headline').text('OK, done! Let\'s see who is next? Just click "GO!" button for next roll.');
+    }
+  </script>
 
 </body>
+
 </html>
