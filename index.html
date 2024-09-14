@@ -107,9 +107,9 @@ function generateNumbers() {
 }
 
 // Reset function to initialize the slider with generated numbers
-function reset(numbers){
+function reset(numbers) {
   setTimeout(() => { $('#go').removeAttr('disabled') }, 11005);
-  
+
   $("#namesbox").val(numbers.join("\n")); // Display all numbers in the textarea
   const varnoteDiv = $('#varnote');
   varnoteDiv.html(''); // Clear existing content
@@ -120,6 +120,7 @@ function reset(numbers){
     varnoteDiv.append(numberDiv);
   });
 
+  // Initialize the slick slider for animation
   $('#varnote').slick({
     speed: 9000,
     infinite: true,
@@ -137,56 +138,60 @@ function reset(numbers){
 function go() {
   $("#varnote").hide();
   $("#srtbtn").hide();
-  $('body').css({"overflow-y": "hidden"});
+  $('body').css({ "overflow-y": "hidden" });
   $('#go').attr('disabled', 'disabled');
   $('#list').attr('disabled', 'disabled');
   $('#save').attr('disabled', 'disabled');
   $('#headline').slideUp();
   $('#namesbox').slideDown();
 
-  let count = 1;
   const numbers = $("#namesbox").val().split("\n").map(Number).filter(Boolean); // Get numbers as an array
 
   // Shuffle numbers and pick the first four as winners
   numbers.sort(() => Math.random() - 0.5);
   const winners = numbers.slice(0, 4); // Select 4 random winners
 
-  $("#values").show();
+  $("#values").show().css({ top: numbers.length * -200 }); // Set initial top position for animation
   $("#popdown").hide();
   $("div").remove(".name");
   $("div").remove(".extra");
 
+  // Append numbers to display for animation
   winners.forEach((number, index) => {
     $('#values').append(`<div id="result${index + 1}" class="name">${number}</div>`);
   });
 
-  $('#values').animate({top: '+176'}, 5000);
-  
-  setTimeout(() => standout(winners), 5000);
+  // Slide up the numbers with animation
+  $('#values').animate({ top: '+176' }, 5000, function() {
+    standout(winners); // Highlight winners after animation
+  });
 }
 
 function standout(winners) {
-  $('.name').animate({opacity: .25});
-  
+  $('.name').animate({ opacity: 0.25 });
+
   winners.forEach((winner, index) => {
-    $(`#result${index + 1}`).removeClass('name').css({opacity: 1});
-    $(`#result${index + 1}`).prepend('<img src="https://i.postimg.cc/wBdKpGsF/pngwing-com-1.png" class="crown">');
-    $(`#result${index + 1}`).append('<div class="extra"><a onClick="removevictim();"><img style="width: 60px;" src="img/eraser.png" alt="Remove from the list"></a></div>');
+    const resultDiv = $(`#result${index + 1}`);
+    resultDiv.removeClass('name').css({ opacity: 1 });
+    resultDiv.prepend('<img src="https://i.postimg.cc/wBdKpGsF/pngwing-com-1.png" class="crown">');
+    resultDiv.animate({ height: '+=60px' }, 500);
+    resultDiv.append('<div class="extra"><a onClick="removevictim();"><img style="width: 60px;" src="img/eraser.png" alt="Remove from the list"></a></div>');
   });
 
   $('#headline').text('Found the Winners!').slideDown();
   $('#go, #list, #save').removeAttr('disabled');
 }
 
-function removevictim(){
+function removevictim() {
   const updatedNumbers = $("#namesbox").val().split("\n").filter(number => number && !winners.includes(Number(number))).join('\n');
   $('#namesbox').val(updatedNumbers);
-  $('#result1').fadeOut(1000, function(){
+  $('#result1').fadeOut(1000, function() {
     $("div").remove("#result1");
   });
   $('#headline').text('OK, done! Let\'s see who is next? Just click "GO!" button for the next roll.');
 }
 </script>
+
 
 
 </body>
