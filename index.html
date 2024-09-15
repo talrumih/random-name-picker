@@ -60,7 +60,7 @@
     }
 
     .winner-box {
-      background: #0a2b31;
+      background: transparent;
       color: #fff;
       padding: 20px;
       border-radius: 1rem;
@@ -111,7 +111,7 @@
     }
 
     body {
-      background: #0a2b31;
+      background: #000;
     }
   </style>
 
@@ -119,22 +119,25 @@
 
 <body>
 
-  <div class="full-head" style="width:100%;background:#0a2b31;">
-    <div class="row">
-      <div class="large-12 columns" style="padding-top:50px;z-index:20;background:#0a2b31;">
-        <ul class="button-group even-4">
-          <li><a href="index.html" id="reset"><img style="width: 60px;" src="img/reset-14415.png" alt="Reset"></a></li>
-          <li><a id="list" onclick="namelist();"><img style="width: 60px;" src="img/files.png" alt="List"></a></li>
-          <li><a id="save" onclick="save();"><img style="width: 60px;" src="img/diskette.png" alt="Save"></a></li>
-          <li><a id="go" onclick="go();"><img style="width: 100px;" src="img/go.png" alt="Go"></li></a>
+  <div class="full-head" style="width:100%; position: relative; z-index: 100; background: #000;">
+    <div class="row" >
+      <div class="large-12 columns" style="padding-top:50px;z-index:20;">
+        <ul class="button-group even-5">
+          <li><img src="img/TH logo.png" width="100"></li>
+          <li><a href="index.html" id="reset"><img style="width: 60px; padding-top: 10px;" src="img/reset-14415.png" alt="Reset"></a></li>
+          <li><a id="list" onclick="namelist();"><img style="width: 60px; padding-top: 10px;" src="img/files-white.png" alt="List"></a></li>
+          <li><a id="save" onclick="save();"><img style="width: 60px; padding-top: 10px;" src="img/diskette-white.png" alt="Save"></a></li>
+          <li><a id="go" onclick="go();"><img style="width: 100px;" src="img/go-white.png" alt="Go"></li></a>
         </ul>
       </div>
     </div>
+    <hr>
   </div>
 
-  <div class="row">
+
+  <div class="row" style="z-index: 0; position: relative;">
     <div class="large-12 columns">
-      <h3 style="text-align:center;margin-top:80px; margin-bottom: 80px;" id="headline">Let's see who are the Lucky Ones?</h3>
+      <h3 style="text-align:center;margin-top:80px; margin-bottom: 80px;" id="headline">Let's see who are the lucky ones?</h3>
 
       <div id="popdown">
         <div id="names" class="inbox"><textarea name="namesbox" id="namesbox"></textarea></div>
@@ -144,15 +147,19 @@
       <div id="winners"></div>
 
       <!-- Scrolling numbers area -->
-      <div id="values"></div>
+      <div id="values" style="z-index: 0;""></div>
 
     </div>
   </div>
   <div>
     <div id="varnote"></div>
     <div id="srtbtn" style="text-align: center; margin-top: 60px;"><a id="go-down" onclick="go();"><img style="width: 100px;"
-          src="img/go.png" alt="Go"></a></div>
+          src="img/go-white.png" alt="Go"></a></div>
   </div>
+
+  <div style="text-align: center; margin-top: 60px;"><img style="width: 200px;"
+    src="img/Roshn logo_.png" ></div>
+</div>
 
   <script>
     document.write('<script src=' +
