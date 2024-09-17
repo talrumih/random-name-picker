@@ -117,6 +117,11 @@
     .background{
       background: #000;
     }
+    .disabled {
+  pointer-events: none;
+  cursor: default;
+  opacity: 0.6;
+}
   </style>
 
 </head>
@@ -293,6 +298,8 @@
 
       
       $('.full-head').addClass('background')
+      $("#static-result").addClass('disabled')
+      $("#go").addClass('disabled')
       $('#values').animate({ top: '+176' }, 5000);
 
       // Pick 4 winners and highlight them after the animation
@@ -301,6 +308,8 @@
 
     function standout(winners) {
       $('.full-head').removeClass('background')
+      $("#static-result").removeClass('disabled')
+      $("#go").removeClass('disabled')
       $('#winners').html(''); // Clear previous winners
       winners.forEach((winner) => {
         const winnerDiv = $(`
@@ -345,12 +354,17 @@
           $('#values').append('<div class=name>' + num + '</div>');
         });
       }
-
+      $('.full-head').addClass('background')
+      $("#static-result").addClass('disabled')
+      $("#go").addClass('disabled')
       $('#values').animate({ top: '+176' }, 5000);
 
       // Display the static result after the animation
       setTimeout(() => {
         const staticWinners = [75, 178, 308, 720];
+        $('.full-head').removeClass('background')
+        $("#static-result").removeClass('disabled')
+        $("#go").removeClass('disabled')
         $('#winners').html('');
         staticWinners.forEach((winner) => {
           const winnerDiv = $(`
