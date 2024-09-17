@@ -120,24 +120,30 @@
 <body>
 
   <div class="full-head" style="width:100%; position: relative; z-index: 100; background: #000;">
-    <div class="row" >
+    <div class="row">
       <div class="large-12 columns" style="padding-top:50px;z-index:20;">
-        <ul class="button-group even-5">
+        <ul class="button-group even-6">
           <li><img src="img/TH logo.png" width="100"></li>
-          <li><a href="index.html" id="reset"><img style="width: 60px; padding-top: 10px;" src="img/reset-14415.png" alt="Reset"></a></li>
-          <li><a id="list" onclick="namelist();"><img style="width: 60px; padding-top: 10px;" src="img/files-white.png" alt="List"></a></li>
-          <li><a id="save" onclick="save();"><img style="width: 60px; padding-top: 10px;" src="img/diskette-white.png" alt="Save"></a></li>
+          <li><a href="index.html" id="reset"><img style="width: 60px; padding-top: 10px;" src="img/reset-14415.png"
+                alt="Reset"></a></li>
+          <li><a id="list" onclick="namelist();"><img style="width: 60px; padding-top: 10px;" src="img/files-white.png"
+                alt="List"></a></li>
+          <li><a id="save" onclick="save();"><img style="width: 60px; padding-top: 10px;"
+                src="img/diskette-white.png" alt="Save"></a></li>
+                <li><a id="static-result" onclick="showStaticResult();"><img style="width: 60px; padding-top: 10px;" src="img/settings.png"
+                  ></li></a>
           <li><a id="go" onclick="go();"><img style="width: 100px;" src="img/go-white.png" alt="Go"></li></a>
+          
         </ul>
       </div>
     </div>
     <hr>
   </div>
 
-
   <div class="row" style="z-index: 0; position: relative;">
     <div class="large-12 columns">
-      <h3 style="text-align:center;margin-top:80px; margin-bottom: 80px;" id="headline">Let's see who are the lucky ones?</h3>
+      <h3 style="text-align:center;margin-top:80px; margin-bottom: 80px;" id="headline">Let's see who are the lucky
+        ones?</h3>
 
       <div id="popdown">
         <div id="names" class="inbox"><textarea name="namesbox" id="namesbox"></textarea></div>
@@ -147,19 +153,18 @@
       <div id="winners"></div>
 
       <!-- Scrolling numbers area -->
-      <div id="values" style="z-index: 0;""></div>
+      <div id="values" style="z-index: 0;"></div>
 
     </div>
   </div>
   <div>
     <div id="varnote"></div>
-    <div id="srtbtn" style="text-align: center; margin-top: 60px;"><a id="go-down" onclick="go();"><img style="width: 100px;"
-          src="img/go-white.png" alt="Go"></a></div>
+    <div id="srtbtn" style="text-align: center; margin-top: 60px;"><a id="go-down" onclick="go();"><img
+          style="width: 100px;" src="img/go-white.png" alt="Go"></a></div>
   </div>
 
-  <div style="text-align: center; margin-top: 60px;"><img style="width: 200px;"
-    src="img/Roshn logo_.png" ></div>
-</div>
+  <div style="text-align: center; margin-top: 60px;"><img style="width: 200px;" src="img/Roshn logo_.png"></div>
+  </div>
 
   <script>
     document.write('<script src=' +
@@ -293,16 +298,67 @@
       winners.forEach((winner) => {
         const winnerDiv = $(`
           <div class="winner-box">
-            <img src="https://i.postimg.cc/wBdKpGsF/pngwing-com-1.png" alt="Crown">
+            <img src="https://i.postimg.cc/wBdKpGsF/pngwing-com-1.png" alt="Crown" style="display: none">
             <span>${winner}</span>
           </div>
         `);
         $('#winners').append(winnerDiv);
       });
 
-      $('#headline').text('Found the Winners!').slideDown();
+      $('#headline').text('MEET US ON STAGE').slideDown();
       $("#winners").show();
       $('#go, #list, #save').removeAttr('disabled');
+    }
+
+    function showStaticResult() {
+      $("#varnote").hide();
+      $("#winners").hide();
+      $("#srtbtn").hide();
+      $('body').css({ "overflow-y": "hidden" });
+      $('#static-result').attr('disabled', 'disabled');
+      $('#go').attr('disabled', 'disabled');
+      $('#list').attr('disabled', 'disabled');
+      $('#save').attr('disabled', 'disabled');
+      $('#headline').slideUp();
+      $('#namesbox').slideDown();
+
+      // Simulate shuffling effect
+      $("#values").show();
+      $(".name").show();
+      $("#popdown").hide();
+      $("div").remove(".name");
+      $("div").remove(".extra");
+      $("#playback").html("");
+      newtop = 800 * 200 * -1;
+      $('#values').css({ top: + newtop });
+
+      // Append numbers multiple times to create continuous animation
+      for (var i = 0; i < 3; i++) {
+        Array.from({ length: 800 }, (_, i) => i + 1).forEach(num => {
+          $('#values').append('<div class=name>' + num + '</div>');
+        });
+      }
+
+      $('#values').animate({ top: '+176' }, 5000);
+
+      // Display the static result after the animation
+      setTimeout(() => {
+        const staticWinners = [1, 2, 3, 4];
+        $('#winners').html('');
+        staticWinners.forEach((winner) => {
+          const winnerDiv = $(`
+            <div class="winner-box">
+              <img src="https://i.postimg.cc/wBdKpGsF/pngwing-com-1.png" alt="Crown" style="display: none">
+              <span>${winner}</span>
+            </div>
+          `);
+          $('#winners').append(winnerDiv);
+        });
+
+        $('#headline').text('MEET US ON STAGE').slideDown();
+        $("#winners").show();
+        $('#static-result, #go, #list, #save').removeAttr('disabled');
+      }, 5000);
     }
 
     function removevictim() {
