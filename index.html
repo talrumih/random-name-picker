@@ -26,7 +26,7 @@
     .name {
       overflow: hidden;
       display: block;
-      background: #ddd8d8;
+      background: #cab19c;
       margin-top: 5px;
       margin-bottom: 5px;
       border-radius: 1rem;
@@ -112,6 +112,10 @@
 
     body {
       background: #000;
+      background-image: url('img/dgsdsgsd.png');
+    }
+    .background{
+      background: #000;
     }
   </style>
 
@@ -119,7 +123,7 @@
 
 <body>
 
-  <div class="full-head" style="width:100%; position: relative; z-index: 100; background: #000;">
+  <div class="full-head" style="width:100%; position: relative; z-index: 100; ">
     <div class="row">
       <div class="large-12 columns" style="padding-top:50px;z-index:20;">
         <ul class="button-group even-6">
@@ -287,6 +291,8 @@
         });
       }
 
+      
+      $('.full-head').addClass('background')
       $('#values').animate({ top: '+176' }, 5000);
 
       // Pick 4 winners and highlight them after the animation
@@ -294,6 +300,7 @@
     }
 
     function standout(winners) {
+      $('.full-head').removeClass('background')
       $('#winners').html(''); // Clear previous winners
       winners.forEach((winner) => {
         const winnerDiv = $(`
