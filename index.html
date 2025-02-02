@@ -262,6 +262,18 @@
         $('#namesbox').attr('disabled', 'disabled');
     }
 
+  function namelist() {
+      $("#varnote").hide();
+      $("#srtbtn").hide();
+      $('#namesbox').removeAttr('disabled', 'disabled');
+      $('#headline').text('Configure number list');
+      $("#popdown").show();
+      $("#values").hide();
+      $("#names").show();
+      $('body').css({ "overflow-y": "visible" });
+    }
+
+
     function go() {
         $("#varnote").hide();
         $("#winners").hide();
