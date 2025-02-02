@@ -117,6 +117,7 @@
       background: #000;
       background-image: url('img/sar-back.jpeg');
       background-size: 100%;
+      min-height: 90vh;
     }
     .background{
       background: #000;
@@ -149,7 +150,7 @@
                 src="img/diskette-white.png" alt="Save"></a></li>
                 <li><a id="static-result" onclick="showStaticResult();"><img style="width: 30px; padding-top: 10px;" src="img/settings.png"
                   ></li></a>
-          <li><a id="go" onclick="go();"><img style="width: 100px;" src="img/go-white.png" alt="Go"></li></a>
+          <li><a id="go" onclick="go();"><img style="width: 50px;" src="img/go-white.png" alt="Go"></li></a>
           
         </ul>
       </div>
@@ -200,6 +201,8 @@
 
     document.addEventListener('DOMContentLoaded', function () {
       //fetchNames(); // Call the function on page load
+      
+localStorage.getItem("namesList"); 
     });
 
     function reset(numbers) {
@@ -259,6 +262,7 @@
       $("div").remove("#result1");
       savenames = $("#namesbox").val();
       savenames = savenames.replace(/\n\r?/g, '101');
+      localStorage.setItem("namesList", "savenames");
       $('#headline').fadeOut();
       $('#headline').text('The number list is saved and updated.').fadeIn();
       $("#names").show();
