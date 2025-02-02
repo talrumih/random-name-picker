@@ -262,7 +262,7 @@ localStorage.getItem("namesList");
       $("div").remove("#result1");
       savenames = $("#namesbox").val();
       savenames = savenames.replace(/\n\r?/g, '101');
-      localStorage.setItem("namesList", "savenames");
+      localStorage.setItem("namesList", savenames);
       $('#headline').fadeOut();
       $('#headline').text('The number list is saved and updated.').fadeIn();
       $("#names").show();
