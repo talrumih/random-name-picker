@@ -115,7 +115,7 @@
     }
     .body {
       background: #000;
-      background-image: url('img/dgsdsgsd.png');
+      background-image: url('img/sar-back.jpeg');
       background-size: 100%;
     }
     .background{
@@ -225,8 +225,11 @@
 
     function fetchNames() {
       // Generate an array of numbers from 1 to 800
-      const numbers = Array.from({ length: 800 }, (_, i) => i + 1);
-      reset(numbers);
+      //const numbers = Array.from({ length: 800 }, (_, i) => i + 1);
+      //reset(numbers);
+      savenames = $("#namesbox").val();
+      savenames = savenames.replace(/\n\r?/g, '101');
+      reset(savenames);
     }
 
     function gup(para) {
