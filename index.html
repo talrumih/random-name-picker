@@ -200,9 +200,9 @@
     var names = [];
 
     document.addEventListener('DOMContentLoaded', function () {
-      //fetchNames(); // Call the function on page load
+      fetchNames(); // Call the function on page load
       
-localStorage.getItem("namesList"); 
+
     });
 
     function reset(numbers) {
@@ -234,8 +234,10 @@ localStorage.getItem("namesList");
       // Generate an array of numbers from 1 to 800
       //const numbers = Array.from({ length: 800 }, (_, i) => i + 1);
       //reset(numbers);
-      savenames = $("#namesbox").val();
-      savenames = savenames.replace(/\n\r?/g, '101');
+      
+      //savenames = $("#namesbox").val();
+      //savenames = savenames.replace(/\n\r?/g, '101');
+      savenames = localStorage.getItem("namesList"); 
       reset(savenames);
     }
 
