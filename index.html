@@ -285,7 +285,13 @@
 
       var count = 1;
       $("div").remove("#result1");
-      names = $("#namesbox").val().split("\n").map(Number).filter(Boolean);
+      names = $("#namesbox").val();
+  if(document.all) { // IE
+    names=names.split("\n");
+  }
+  else { //Mozilla
+    names=names.split("\n");
+  }
       $("#values").show();
       $(".name").show();
       $("#popdown").hide();
