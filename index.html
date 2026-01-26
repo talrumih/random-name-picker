@@ -357,6 +357,13 @@
       return list[randomInt(list.length)];
     }
 
+    function removeOneOccurrence(list, value) {
+      var idx = list.indexOf(value);
+      if (idx === -1) return list;
+      list.splice(idx, 1);
+      return list;
+    }
+
     function shuffleCopy(list) {
       var copy = list.slice();
       shuffleInPlace(copy);
@@ -408,6 +415,13 @@
 
         $('#headline').text('MEET US ON STAGE').slideDown();
         $('#go, #list, #save').removeAttr('disabled');
+
+        // Remove winner(s) from the pool so they can't win again.
+        winners.forEach((winner) => {
+          removeOneOccurrence(names, winner);
+        });
+        $("#namesbox").val(names.join('\n'));
+        localStorage.setItem("namesList", names.join('|'));
     }
 </script>
 
