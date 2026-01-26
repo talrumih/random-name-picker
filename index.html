@@ -17,10 +17,17 @@
   <style>
     #values {
       position: relative;
-      font-size: 400%;
       text-align: center;
       margin: 0 auto;
       z-index: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 20px;
+      border: 1px solid white;
+      border-radius: 10px;
+      min-height: 110px;
     }
 
     .main-container{
@@ -32,15 +39,6 @@
   min-height: 95vh;
     }
       
-
-    .name {
-      overflow: hidden;
-      display: block;
-      background: #fff;
-      margin-top: 5px;
-      margin-bottom: 5px;
-      border-radius: 1rem;
-    }
 
     #names {
       display: none;
@@ -58,15 +56,6 @@
     .extra {
       font-size: 16px;
       margin-top: 20px;
-    }
-
-    #winners {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      margin-bottom: 20px;
-      border: 1px solid white;
-      border-radius: 10px;
     }
 
     .winner-box {
@@ -180,10 +169,7 @@
         <div id="names" class="inbox"><textarea name="namesbox" id="namesbox"></textarea></div>
       </div>
 
-      <!-- Winners will be displayed here -->
-      <div id="winners"></div>
-
-      <!-- Scrolling numbers area -->
+      <!-- Rolling + final result (single box) -->
       <div id="values" style="z-index: 0;"></div>
 
     </div>
@@ -211,6 +197,7 @@
 
 <script>
     var names = [];
+  var useStaticResult = false;
 
     document.addEventListener('DOMContentLoaded', function () {
         fetchNames(); // Load stored names on page load
@@ -290,7 +277,6 @@
 
     function go() {
         $("#varnote").hide();
-        $("#winners").hide();
         $("#srtbtn").hide();
         $('body').css({ "overflow-y": "hidden" });
         $('#go, #list, #save').attr('disabled', 'disabled');
@@ -298,59 +284,129 @@
         $('#namesbox').slideDown();
 
         names = $("#namesbox").val().split(/\r?\n/).filter(name => name.trim() !== "");
-        if (names.length === 0) return;
+      if (names.length === 0) {
+        $('#go, #list, #save').removeAttr('disabled');
+        $('#headline').text('Add at least one name to start.').slideDown();
+        return;
+      }
 
-        $("#values").show();
-        $(".name").show();
-        $("#popdown").hide();
-        $("div").remove(".name");
-        $("div").remove(".extra");
-        $("#playback").html("");
+      var winner = pickWinner(names);
 
-        newtop = names.length * 200 * -1;
-        $('#values').css({ top: newtop });
-
-        names.sort(randOrd);
-
-        // Append names multiple times to create continuous animation
-        for (var i = 0; i < 3; i++) {
-            names.forEach(name => {
-                $('#values').append('<div class=name>' + name + '</div>');
-            });
-        }
+      $("#values").show().empty();
+      $("#popdown").hide();
+      $("div").remove(".extra");
+      $("#playback").html("");
 
         $('.full-head').addClass('background');
         $("#static-result").addClass('disabled');
         $("#go").addClass('disabled');
 
-        $('#values').animate({ top: '+176' }, 2000);
+      if (useStaticResult) {
+        // No shuffle animation; immediately show result.
+        setTimeout(() => standout([winner]), 100);
+        return;
+      }
 
-        // Pick a winner
-        setTimeout(() => standout(names.slice(0, 1)), 2000);
+      // Slot-machine style roll that lands on the actual chosen winner.
+      var $rolling = $(
+        '<div class="winner-box">' +
+          '<img src="https://i.postimg.cc/wBdKpGsF/pngwing-com-1.png" alt="Crown" style="display: none">' +
+          '<span></span>' +
+        '</div>'
+      );
+      $('#values').append($rolling);
+
+      var spinPool = shuffleCopy(names);
+      var poolIndex = 0;
+      var ticks = 0;
+      var tickMs = 70;
+      var spinDurationMs = 5000;
+      var totalTicks = Math.ceil(spinDurationMs / tickMs);
+
+      var intervalId = setInterval(() => {
+        ticks += 1;
+
+        if (poolIndex >= spinPool.length) {
+          spinPool = shuffleCopy(names);
+          poolIndex = 0;
+        }
+
+        var nextName = spinPool[poolIndex++];
+        if (ticks >= totalTicks) {
+          nextName = winner;
+        }
+
+            $rolling.find('span').text(nextName);
+
+        if (ticks >= totalTicks) {
+          clearInterval(intervalId);
+          setTimeout(() => standout([winner]), 150);
+        }
+      }, tickMs);
     }
 
-    function randOrd() {
-        return Math.random() - 0.5;
+    function showStaticResult() {
+      useStaticResult = !useStaticResult;
+      var msg = useStaticResult ? 'Static result mode enabled.' : 'Rolling animation mode enabled.';
+      $('#headline').stop(true, true).fadeOut(120, function () {
+        $(this).text(msg).fadeIn(120);
+      });
+    }
+
+    function pickWinner(list) {
+      return list[randomInt(list.length)];
+    }
+
+    function shuffleCopy(list) {
+      var copy = list.slice();
+      shuffleInPlace(copy);
+      return copy;
+    }
+
+    function shuffleInPlace(list) {
+      for (var i = list.length - 1; i > 0; i--) {
+        var j = randomInt(i + 1);
+        var tmp = list[i];
+        list[i] = list[j];
+        list[j] = tmp;
+      }
+      return list;
+    }
+
+    function randomInt(maxExclusive) {
+      if (!Number.isFinite(maxExclusive) || maxExclusive <= 0) return 0;
+
+      // Prefer cryptographically-strong randomness when available.
+      if (window.crypto && window.crypto.getRandomValues) {
+        var uint32 = new Uint32Array(1);
+        var limit = Math.floor(0x100000000 / maxExclusive) * maxExclusive;
+        do {
+          window.crypto.getRandomValues(uint32);
+        } while (uint32[0] >= limit);
+        return uint32[0] % maxExclusive;
+      }
+
+      return Math.floor(Math.random() * maxExclusive);
     }
 
     function standout(winners) {
         $('.full-head').removeClass('background');
         $("#static-result").removeClass('disabled');
         $("#go").removeClass('disabled');
-        $('#winners').html('');
+      $('#values').html('');
 
-        winners.forEach((winner) => {
-            const winnerDiv = $(`
-                <div class="winner-box">
-                    <img src="https://i.postimg.cc/wBdKpGsF/pngwing-com-1.png" alt="Crown" style="display: none">
-                    <span>${winner}</span>
-                </div>
-            `);
-            $('#winners').append(winnerDiv);
-        });
+      winners.forEach((winner) => {
+        const winnerDiv = $(
+          '<div class="winner-box">' +
+            '<img src="https://i.postimg.cc/wBdKpGsF/pngwing-com-1.png" alt="Crown" style="display: none">' +
+            '<span></span>' +
+          '</div>'
+        );
+        winnerDiv.find('span').text(winner);
+        $('#values').append(winnerDiv);
+      });
 
         $('#headline').text('MEET US ON STAGE').slideDown();
-        $("#winners").show();
         $('#go, #list, #save').removeAttr('disabled');
     }
 </script>
