@@ -258,7 +258,7 @@
         names = $("#namesbox").val().split(/\r?\n/).filter(name => name.trim() !== ""); // Remove empty lines
         localStorage.setItem("namesList", names.join('|')); // Store using '|' separator
 
-        $('#headline').fadeOut().text('The number list is saved and updated.').fadeIn();
+        $('#headline').css('visibility', 'visible').fadeOut().text('The number list is saved and updated.').fadeIn();
         $("#names").show();
         $('#namesbox').attr('disabled', 'disabled');
     }
@@ -267,7 +267,7 @@
       $("#varnote").hide();
       $("#srtbtn").hide();
       $('#namesbox').removeAttr('disabled', 'disabled');
-      $('#headline').text('Configure number list');
+      $('#headline').css('visibility', 'visible').text('Configure number list');
       $("#popdown").show();
       $("#values").hide();
       $("#names").show();
@@ -280,13 +280,14 @@
         $("#srtbtn").hide();
         $('body').css({ "overflow-y": "hidden" });
         $('#go, #list, #save').attr('disabled', 'disabled');
-        $('#headline').slideUp();
+      // Hide headline without collapsing layout (prevents the result box from shifting up).
+      $('#headline').css('visibility', 'hidden');
         $('#namesbox').slideDown();
 
         names = $("#namesbox").val().split(/\r?\n/).filter(name => name.trim() !== "");
       if (names.length === 0) {
         $('#go, #list, #save').removeAttr('disabled');
-        $('#headline').text('Add at least one name to start.').slideDown();
+        $('#headline').css('visibility', 'visible').text('Add at least one name to start.');
         return;
       }
 
@@ -348,7 +349,7 @@
     function showStaticResult() {
       useStaticResult = !useStaticResult;
       var msg = useStaticResult ? 'Static result mode enabled.' : 'Rolling animation mode enabled.';
-      $('#headline').stop(true, true).fadeOut(120, function () {
+      $('#headline').css('visibility', 'visible').stop(true, true).fadeOut(120, function () {
         $(this).text(msg).fadeIn(120);
       });
     }
@@ -413,7 +414,7 @@
         $('#values').append(winnerDiv);
       });
 
-        $('#headline').text('MEET US ON STAGE').slideDown();
+        $('#headline').css('visibility', 'visible').text('MEET US ON STAGE');
         $('#go, #list, #save').removeAttr('disabled');
 
         // Remove winner(s) from the pool so they can't win again.
